@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item  android:id="@+id/home" android:title="الرئيسية"  />
+
+        <item  android:id="@+id/about" android:title="عن الشركة"  />
+        <item  android:id="@+id/proclean" android:title="برامج النظافة"  />
+        <item  android:id="@+id/proservice" android:title="برامج الخدمة"  />
+        <item  android:id="@+id/service" android:title="الخدمات"  />
+        <item  android:id="@+id/gua" android:title="الضمان " />
+        <item  android:id="@+id/ads" android:title="مزايا التعاقد " />
+        <item  android:id="@+id/library" android:title="مكتبة الأفات " />
+        <item  android:id="@+id/contact" android:title="اتصل بنا " />
+
+    </group>
+</menu>
