@@ -2,7 +2,9 @@ package app.payer_service.com;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -18,15 +20,22 @@ import im.delight.android.webview.AdvancedWebView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    Toolbar toolbar ;
-    DrawerLayout drawer ;
+    Toolbar toolbar;
+    DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
-    AdvancedWebView     advancedwebview;
+    AdvancedWebView advancedwebview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_connect_admin1);
+
+
+        if (Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.toolbar_one);
@@ -41,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setItemIconTintList(null);
 
         advancedwebview = (AdvancedWebView) findViewById(R.id.webView);
+
 
         advancedwebview.loadUrl("http://payerservice.com");
         advancedwebview.getSettings().setLoadWithOverviewMode(true);
@@ -58,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         alartExit();
     }
+
     public void alartExit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to exit?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
