@@ -2,10 +2,17 @@ package app.payer_service.com;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,6 +36,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(checkInternet()) {
+            load();
+        }else {
+            setContentView(R.layout.activity_main);
+            Button refresh = (Button) findViewById(R.id.refresh);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(checkInternet()) {
+                        load();
+                    }else
+                        Toast.makeText(MainActivity.this, "Your network don't work", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+    }
+
+    private void load (){
         setContentView(R.layout.drawer_connect_admin1);
 
 
@@ -56,6 +82,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         advancedwebview.getSettings().setLoadWithOverviewMode(true);
         advancedwebview.zoomOut();
         advancedwebview.getSettings().setUseWideViewPort(true);
+    }
+    private boolean checkInternet() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        boolean isWifiConn = false;
+        boolean isMobileConn = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            for (Network network : connMgr.getAllNetworks()) {
+                NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
+                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                    isWifiConn |= networkInfo.isConnected();
+                }
+                if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    isMobileConn |= networkInfo.isConnected();
+                }
+            }
+        }
+        if(isMobileConn || isWifiConn) return true; else return false;
     }
 
     @Override
